@@ -15,7 +15,6 @@ pipeline {
               shortCommit = gitCommit.take(6)
               println gitCommit
               println shortCommit
-              env.GIT_COMMIT = gitCommit
             }
             
             
@@ -28,9 +27,10 @@ pipeline {
         parallel(
           "Package": {
             sleep 3
-            sh '''
-echo $(date) > gigantic_binary.txt
-echo "Packaging finished"'''
+            sh """
+              echo ${gitCommit} > gigantic_binary.txt
+              echo "Packaging finished"
+            """
             archiveArtifacts(artifacts: 'gigantic*.*', fingerprint: true, onlyIfSuccessful: true)
             
           },
