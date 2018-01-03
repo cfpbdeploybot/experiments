@@ -28,10 +28,10 @@ pipeline {
           "Package": {
             sleep 3
             sh """
-              echo ${gitCommit} > gigantic_binary.txt
+              echo \$(date) > ${gitCommit}.txt
               echo "Packaging finished"
             """
-            archiveArtifacts(artifacts: 'gigantic*.*', fingerprint: true, onlyIfSuccessful: true)
+            archiveArtifacts(artifacts: "${gitCommit}.txt", fingerprint: true, onlyIfSuccessful: true)
             
           },
           "Security Tests": {
